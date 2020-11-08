@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'rest_auth.registration',
 
+    'ingredient',
     'stock',
 
     'django.contrib.admin',

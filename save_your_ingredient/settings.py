@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'rest_auth.registration',
 
+    'stock',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -125,6 +127,8 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 
 REST_USE_JWT = True
 ACCOUNT_LOGOUT_ON_GET = True
+
+SITE_ID = 1
 #--------------------------------------------------------------------------
 
 

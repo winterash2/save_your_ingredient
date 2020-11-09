@@ -1,8 +1,10 @@
 from django.db import models
 from ingredient.models import Ingredient
+from django.contrib.auth.models import User
 
 
 class Stock(models.Model):
-    ingredient_id = models.OneToOneField(Ingredient, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    ingredient_id = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     amount = models.TextField()
     expiration_date = models.DateField(auto_now_add=True)

@@ -10,4 +10,4 @@ class StockView(viewsets.ModelViewSet):
     permisson_classes = (permissions.IsAuthenticated, )
 
     def stock_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(user=self.request.user, user_id=self.request.user)

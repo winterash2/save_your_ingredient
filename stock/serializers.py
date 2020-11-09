@@ -8,6 +8,7 @@ class StockSerializer(serializers.ModelSerializer):
         model = Stock
         fields = (
             'id',
+            'user_id',
             'ingredient_id',
             'amount',
             'expiration_date',

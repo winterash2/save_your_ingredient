@@ -6,11 +6,5 @@ from django.contrib.auth.models import User
 class StockSerializer(serializers.ModelSerializer):
     class Meta:
         model = Stock
-        fields = (
-            'id',
-            'user_id',
-            'ingredient_id',
-            'amount',
-            'expiration_date',
-        )
+        fields = '__all__'
         read_only_fields = ('id', )

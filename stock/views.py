@@ -29,11 +29,6 @@ class StockView(APIView):
 class StockDetailView(APIView):
     def get(self, request, stock_id):
         serializer = StockSerializer(data=request.data)
-        data = serializer.validated_data
-
-        if data['user_id'] != request.user.id:
-            return Response({'Error': "Can't find stock"}, status=status.HTTP_404_NOT_FOUND)
-
         stock = Stock.objects.filter(id=stock_id)
         if stock:
             serializer = StockSerializer(stock, many=True)
@@ -45,13 +40,8 @@ class StockDetailView(APIView):
         stock = Stock.objects.get(id=stock_id)
         if stock:
             serializer = StockSerializer(stock, data=request.data)
-            data = serializer.validated_data
-
-            if request.user.id != stock.user_id:
+            if request.user.id != stock.user_id.id:
                 return Response({'Error': "Not your stock"}, status=status.HTTP_400_BAD_REQUEST)
-            elif data['user_id'] != request.user.id:
-                return Response({'Error': "Not your stock"}, status=status.HTTP_400_BAD_REQUEST)
-
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -63,18 +53,10 @@ class StockDetailView(APIView):
     def delete(self, request, stock_id):
         stock = Stock.objects.get(id=stock_id)
         if stock:
-            if request.user.id != stock.user_id:
+            if request.user.id != stock.user_id.id:
                 return Response({'Error': "Not your stock"}, status=status.HTTP_400_BAD_REQUEST)
             else:
                 stock.delete()
                 return Response(status=status.HTTP_204_NO_CONTENT)
         else:
             return Response({'Error': "Can't find stock"}, status=status.HTTP_404_NOT_FOUND)
-
-# class StockView(viewsets.ModelViewSet):
-#     queryset = Stock.objects.all()
-#     serializer_class = StockSerializer
-#     permisson_classes = (permissions.IsAuthenticated, )
-
-#     def stock_create(self, serializer):
-#         serializer.save(user=self.request.user, user_id=self.request.user)

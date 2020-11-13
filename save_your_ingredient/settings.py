@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 
     'ingredient',
     'stock',
+    'recipe',
+    'mypage',
 
     'django.contrib.admin',
     'django.contrib.auth',

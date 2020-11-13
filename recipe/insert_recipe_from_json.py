@@ -1,4 +1,5 @@
-import os, json
+import os
+import json
 import sqlite3
 
 
@@ -17,7 +18,7 @@ for file in file_lists[10:]:
     reci_id = json_obj.get("id")
     ingredient_ids = str(json_obj.get("ingredient_ids"))
     ingredient_ids = ingredient_ids.replace('[', '').replace(']', '')
-    query = "INSERT INTO recipe_recipes (reci_id,ingredient_ids) VALUES (?,?)"
+    query = "INSERT INTO recipe_recipe (reci_id,ingredient_ids) VALUES (?,?)"
     cur.execute(query, (reci_id, ingredient_ids))
     # print(ingredient_ids)
     conn.commit()

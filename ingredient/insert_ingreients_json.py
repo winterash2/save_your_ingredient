@@ -1,8 +1,9 @@
-import os, json
+import os
+import json
 import sqlite3
 
 file = os.path.abspath('./ingredients/ingredient.json')
-json_data = open(file,encoding='UTF-8').read()
+json_data = open(file, encoding='UTF-8').read()
 json_obj = json.loads(json_data)
 
 # connect sqlite
@@ -21,4 +22,3 @@ for data in json_obj:
     conn.commit()
 
 conn.close()
-

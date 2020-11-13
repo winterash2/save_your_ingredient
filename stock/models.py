@@ -13,7 +13,7 @@ AMOUNT_CHOICES = [
 class Stock(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     ingredient_id = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
-    amount = models.models.CharField(
+    amount = models.CharField(
         max_length=2,
         choices=AMOUNT_CHOICES,
         default='많음',

@@ -13,7 +13,7 @@ class UserDetail(models.Model):
 
 
 class ExperienceRecipe(models.Model):
-    recipe = models.ForeignKey(User, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now_add=True)
     user_detail = models.ForeignKey(
         UserDetail, related_name='experiencerecipe', on_delete=models.CASCADE)

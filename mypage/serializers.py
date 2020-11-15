@@ -2,9 +2,10 @@ from rest_framework import serializers
 from mypage.models import UserDetail, ExperienceRecipe
 from recipe.serializers import RecipeSerializer
 from django.contrib.auth.models import User
-
+from recipe.models import Recipe
 
 class ExperienceRecipeSerializer(serializers.ModelSerializer):
+    reci_id = serializers.ReadOnlyField(source='recipe.reci_id')
     class Meta:
         model = ExperienceRecipe
         exclude = ('user_detail', )

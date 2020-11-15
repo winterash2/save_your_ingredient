@@ -53,6 +53,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -60,7 +61,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'save_your_ingredient.urls'
@@ -121,8 +121,8 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        #'rest_framework.authentication.SessionAuthentication',
-        #'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
     ),
 }
 #ACCOUNT_EMAIL_REQUIRED = True
@@ -134,7 +134,7 @@ REST_USE_JWT = True
 ACCOUNT_LOGOUT_ON_GET = True
 
 SITE_ID = 1
-#--------------------------------------------------------------------------
+# --------------------------------------------------------------------------
 
 
 # Internationalization
@@ -157,5 +157,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
 
-CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:5502']
+CORS_ORIGIN_WHITELIST = [
+    'http://127.0.0.1:5502',
+    'http://localhost:5502',
+]
 CORS_ALLOW_CREDENTIALS = True

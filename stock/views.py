@@ -4,7 +4,6 @@ from rest_framework import status
 from .serializers import StockSerializer
 from .models import Stock
 from rest_framework import permissions
-from django.contrib.auth.decorators import login_required
 
 
 class StockView(APIView):
@@ -28,7 +27,7 @@ class StockView(APIView):
 
 class StockDetailView(APIView):
     def get(self, request, stock_id):
-        serializer = StockSerializer(data=request.data)
+        # serializer = StockSerializer(data=request.data)
         stock = Stock.objects.filter(id=stock_id)
         if stock:
             serializer = StockSerializer(stock, many=True)

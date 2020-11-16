@@ -12,16 +12,19 @@ from django.shortcuts import get_object_or_404
 class UserDetailView(APIView):
     def get(self, request):
         try:
+            print("1")
             # user_detail = get_object_or_404(UserDetail, user=request.user)
-            user_detail = UserDetail.objects.filter(user=request.user)
+            user_detail = UserDetail.objects.get(user=request.user)
         except:
+            print("2")
             user_detail = UserDetail()
             user_detail.user = request.user
             user_detail.total_time = 0
             user_detail.save()
-            user_detail = UserDetail.objects.filter(user=request.user)
-
-        serializer = UserDetailSerializer(user_detail, many=True)
+            # user_detail = UserDetail.objects.get(user=request.user)
+        print("3")
+        print(user_detail)
+        serializer = UserDetailSerializer(user_detail)
         # print(serializer.data)
         return Response(serializer.data)
 

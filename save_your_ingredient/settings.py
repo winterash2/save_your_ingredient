@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+import datetime
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -134,6 +135,10 @@ REST_USE_JWT = True
 ACCOUNT_LOGOUT_ON_GET = True
 
 SITE_ID = 1
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(minutes=60)
+}
 # --------------------------------------------------------------------------
 
 
@@ -157,10 +162,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
 
-CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:5502', 'http://localhost:5502']
-
 CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:5502',
     'http://localhost:5502',
-]
+]   
 CORS_ALLOW_CREDENTIALS = True

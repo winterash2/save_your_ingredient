@@ -14,10 +14,10 @@ class StockView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        _mutable = request.data._mutable
-        request.data._mutable = True
-        request.data.update({"user_id": request.user.id})
-        request.data._mutable = _mutable
+        # _mutable = request.data._mutable
+        # request.data._mutable = True
+        # request.data.update({"user_id": request.user.id})
+        # request.data._mutable = _mutable
         serializer = StockSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

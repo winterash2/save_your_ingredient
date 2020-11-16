@@ -50,7 +50,8 @@ def recommend_ingredient(my_stock):
             re_list.append(int(s))
 # 재고에 있는 재료를 모두 사용해서 만들 수 있는 요리부터 추천
         if len(re_list) != 0 and len(set(stock_list) - set(re_list)) == 0:
-            recommend_recipe_id_list.append(recipe.reci_id)
+            if len(recommend_recipe_id_list) < 20:
+                recommend_recipe_id_list.append(recipe.reci_id)
     if len(recommend_recipe_id_list) < 10:
         for recipe in all_recipes:
             if not (recipe.ingredient_ids):

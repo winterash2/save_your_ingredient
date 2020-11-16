@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 
     'ingredient',
     'stock',
+    'recipe',
+    'mypage',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -119,8 +121,8 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        #'rest_framework.authentication.SessionAuthentication',
-        #'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
     ),
 }
 #ACCOUNT_EMAIL_REQUIRED = True
@@ -132,7 +134,7 @@ REST_USE_JWT = True
 ACCOUNT_LOGOUT_ON_GET = True
 
 SITE_ID = 1
-#--------------------------------------------------------------------------
+# --------------------------------------------------------------------------
 
 
 # Internationalization
@@ -155,5 +157,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
 
+<<<<<<< HEAD
 CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:5502', 'http://localhost:5502']
+=======
+CORS_ORIGIN_WHITELIST = [
+    'http://127.0.0.1:5502',
+    'http://localhost:5502',
+]
+>>>>>>> 282a38403036e1885b64a84f1fb631c1a3b2e4e3
 CORS_ALLOW_CREDENTIALS = True

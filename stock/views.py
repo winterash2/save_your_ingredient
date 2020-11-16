@@ -12,6 +12,8 @@ class StockView(APIView):
         queryset = Stock.objects.filter(user_id=request.user.id)
         print(request.user.id)
         serializer = StockSerializer(queryset, many=True)
+        print(type(serializer.data))
+        print('dffdfsdafdsf')
         return Response(serializer.data)
 
     def post(self, request):

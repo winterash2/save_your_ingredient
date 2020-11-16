@@ -1,13 +1,13 @@
-import os
+from random import shuffle
+
 import django
+import os
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "save_your_ingredient.settings")
+django.setup()
 import datetime
 from dateutil.parser import parse as dateparse
 import datetime as pydatetime
 import json
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "save_your_ingredient.settings")
-django.setup()
-
 from recipe.models import Recipe
 from stock.models import Stock
 
@@ -32,10 +32,13 @@ def get_stock_list():
 
 
 # 재료 기반 레시피 추천
-def recommend_ingredient():
+def recommend_ingredient(my_stock):
     all_recipes = Recipe.objects.all()
     recommend_recipe_id_list = []
-    stock_list = get_stock_list()
+    this_stock = my_stock
+    stock_list = []
+    for stock in this_stock:
+        stock_list.append(stock.ingredient_id.id)
     # print(stock_list)
     for recipe in all_recipes:
         if not(recipe.ingredient_ids):
@@ -44,7 +47,7 @@ def recommend_ingredient():
         re_list = []
         for s in ss:
             re_list.append(int(s))
-        if len(re_list) != 0 and len(set(stock_list) - set(re_list)) == 0:# and len(set(re_list) - set(stock_list)) < 10:
+        if len(re_list) != 0 and len(set(stock_list) - set(re_list)) == 0:
             recommend_recipe_id_list.append(recipe.reci_id)
     if len(recommend_recipe_id_list) < 10:
         for recipe in all_recipes:
@@ -57,7 +60,7 @@ def recommend_ingredient():
             if len(re_list) != 0 and 0 < len(set(stock_list) - set(re_list)) < 2:  # and len(set(re_list) - set(stock_list)) < 10:
                 if len(recommend_recipe_id_list) < 20:
                     recommend_recipe_id_list.append(recipe.reci_id)
-    if len(recommend_recipe_id_list) < 8:
+    if len(recommend_recipe_id_list) < 10:
         for recipe in all_recipes:
             if not (recipe.ingredient_ids):
                 continue
@@ -103,13 +106,15 @@ def get_time_diff(start_date, end_date, unit='second'):
 
 
 # 유통기한 기반 레시피 추천
-def recommend_expiration_date():
+def recommend_expiration_date(my_stock):
     now = datetime.datetime.now()
     nowDates = now.strftime('%Y-%m-%d')
     nowDate = nowDates.replace('-', '')
-    all_stocks = Stock.objects.all()
+    this_stock = my_stock
+    # print(all_stocks)
     expiration_list = []
-    for stock in all_stocks:
+    for stock in this_stock:
+        # print(stock.expiration_date, type(stock.expiration_date))
         stock_time = str(stock.expiration_date).replace('-', '')
         ex_day = get_time_diff(parse_korean_type_date(nowDate), parse_korean_type_date(stock_time), unit='day')
         if ex_day < 5:
@@ -125,21 +130,31 @@ def recommend_expiration_date():
         re_list = []
         for s in ss:
             re_list.append(int(s))
+            # 유통기한이 얼마 안남은 재고가 모두 포함되는 레시피들을 담자
         if len(re_list) != 0 and len(set(expiration_list) - set(re_list)) == 0:
             if len(recommend_recipe_list) < 20:
                 recommend_recipe_list.append(recipe.reci_id)
-        if recommend_recipe_list:
-            a = Recipe.objects.filter(reci_id=recommend_recipe_list[0])
-    print(len(recommend_recipe_list))
+                # 리스트에 10개도 안담겼다면 유통기한이 얼마 안남은 재고중 하나를 제외하고 만들수 있는 레시피들을 추가로 담자
+        if len(recommend_recipe_list) < 10:
+            for recipe in all_recipes:
+                if not (recipe.ingredient_ids):
+                    continue
+                ss = recipe.ingredient_ids.split(',')
+                re_list = []
+                for s in ss:
+                    re_list.append(int(s))
+                if len(re_list) != 0 and len(set(expiration_list) - set(re_list)) == 1:
+                    if len(recommend_recipe_list) < 20:
+                        recommend_recipe_list.append(recipe.reci_id)
     result = dict()
     result['ids'] = recommend_recipe_list
 
     return result
 #
-#
 # # 만개사이트 인기 레시피 파싱후 레시피 추천
 # recommend_expiration_date()
-recommend_ingredient()
+# recommend_ingredient()
+# recommend_expiration_date()
 # a = Recipes.objects.filter(reci_id=new[0])
 # for n in new[1:]:
 #     b = Recipes.objects.filter(reci_id=n)
@@ -148,3 +163,14 @@ recommend_ingredient()
 # print(result)
 # for reci in recies:
 #     if str(reci)
+def recommend_random():
+    my_qset = Recipe.objects.all()
+    my_list = list(my_qset)
+    shuffle(my_list)
+    recommend_recipe_list = []
+    for item in my_list[:20]:
+        print(item.reci_id)
+        recommend_recipe_list.append(item.reci_id)
+    result = dict()
+    result['ids'] = recommend_recipe_list
+    return result
